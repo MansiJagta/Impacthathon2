@@ -57,25 +57,15 @@ def classify_document(doc_type: str):
     return "unknown"
 
 
+from .extraction_engine import extract_node_1
+
 def process_document(file_path: str, doc_type: str):
-    if file_path.lower().endswith(".pdf"):
-        text = extract_text_from_pdf(file_path)
-    else:
-        text = extract_text_from_image(file_path)
-
-    if doc_type == "policy":
-        return extract_policy_fields(text)
-
-    elif doc_type == "bill":
-        return extract_bill_fields(text)
-
-    elif doc_type == "id_proof":
-        return extract_id_fields(text)
-
-    elif doc_type == "report":
-        return extract_report_fields(text)
-
-    return {}
+    """
+    High-accuracy document processing.
+    Note: doc_type is now primarily used for downstream routing, 
+    as the VDU engine handles multi-field extraction.
+    """
+    return extract_node_1(file_path)
 
 
 @app.post("/upload")
